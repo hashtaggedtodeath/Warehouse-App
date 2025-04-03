@@ -66,7 +66,7 @@ namespace Warehouse_App.Windows
         {
             switch (_currentTable)
             {
-            
+
                 case "Suppliers":
                     var newSupplier = new Suppliers();
                     var supplierWindow = new SupplierWindow(newSupplier);
@@ -75,7 +75,7 @@ namespace Warehouse_App.Windows
                         _dbService.AddSupplier(newSupplier);
                         LoadData();
                     }
-                    
+
                     break;
                 case "Customers":
                     var newCustomer = new Customers();
@@ -110,45 +110,58 @@ namespace Warehouse_App.Windows
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             if (MainDataGrid.SelectedItem == null) return;
-
-            switch (_currentTable)
+            try
             {
-                case "Suppliers":
-                    var supplier = (Suppliers)MainDataGrid.SelectedItem;
-                    var supplierWindow = new SupplierWindow(supplier);
-                    if (supplierWindow.ShowDialog() == true)
-                    {
-                        _dbService.UpdateSupplier(supplier);
-                        LoadData();
-                    }
-                    break;
-                case "Customers":
-                    var customer = (Customers)MainDataGrid.SelectedItem;
-                    var customerWindow = new CustomerWindow(customer);
-                    if (customerWindow.ShowDialog() == true)
-                    {
-                        _dbService.UpdateCustomer(customer);
-                        LoadData();
-                    }
-                    break;
-                case "Products":
-                    var product = (Products)MainDataGrid.SelectedItem;
-                    var productWindow = new ProductWindow(product, _dbService);
-                    if (productWindow.ShowDialog() == true)
-                    {
-                        _dbService.UpdateProduct(product);
-                        LoadData();
-                    }
-                    break;
-                case "Sales":
-                    var sale = (Sales)MainDataGrid.SelectedItem;
-                    var saleWindow = new SaleWindow(sale, _dbService);
-                    if (saleWindow.ShowDialog() == true)
-                    {
-                        _dbService.UpdateSale(sale);
-                        LoadData();
-                    }
-                    break;
+                switch (_currentTable)
+                {
+                    case "Suppliers":
+                        var supplier = (Suppliers)MainDataGrid.SelectedItem;
+                        var supplierWindow = new SupplierWindow(supplier);
+                        if (supplierWindow.ShowDialog() == true)
+                        {
+                            _dbService.UpdateSupplier(supplier);
+                            LoadData();
+                        }
+                        break;
+                    case "Customers":
+                        var customer = (Customers)MainDataGrid.SelectedItem;
+                        var customerWindow = new CustomerWindow(customer);
+                        if (customerWindow.ShowDialog() == true)
+                        {
+                            _dbService.UpdateCustomer(customer);
+                            LoadData();
+                        }
+                        break;
+                    case "Products":
+                        var product = (Products)MainDataGrid.SelectedItem;
+                        var productWindow = new ProductWindow(product, _dbService);
+                        if (productWindow.ShowDialog() == true)
+                        {
+                            _dbService.UpdateProduct(product);
+                            LoadData();
+                        }
+                        break;
+                    case "Sales":
+                        var sale = (Sales)MainDataGrid.SelectedItem;
+                        var saleWindow = new SaleWindow(sale, _dbService);
+                        if (saleWindow.ShowDialog() == true)
+                        {
+                            _dbService.UpdateSale(sale);
+                            LoadData();
+                        }
+                        break;
+                    default:
+                        MessageBox.Show("Неизвестная таблица для редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+            }
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show($"Ошибка приведения типов: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -156,26 +169,48 @@ namespace Warehouse_App.Windows
         {
             if (MainDataGrid.SelectedItem == null) return;
 
-            switch (_currentTable)
+            try
             {
-                case "Suppliers":
-                    var supplier = (Suppliers)MainDataGrid.SelectedItem;
-                    _dbService.DeleteSupplier(supplier.SupplierID);
-                    break;
-                case "Customers":
-                    var customer = (Customers)MainDataGrid.SelectedItem;
-                    _dbService.DeleteCustomer(customer.CustomerID);
-                    break;
-                case "Products":
-                    var product = (Products)MainDataGrid.SelectedItem;
-                    _dbService.DeleteProduct(product.ProductID);
-                    break;
-                case "Sales":
-                    var sale = (Sales)MainDataGrid.SelectedItem;
-                    _dbService.DeleteSale(sale.SaleID);
-                    break;
+                switch (_currentTable)
+                {
+                    case "Suppliers":
+                        if (MainDataGrid.SelectedItem is Suppliers supplier)
+                        {
+                            _dbService.DeleteSupplier(supplier.SupplierID);
+                        }
+                        break;
+                    case "Customers":
+                        if (MainDataGrid.SelectedItem is Customers customer)
+                        {
+                            _dbService.DeleteCustomer(customer.CustomerID);
+                        }
+                        break;
+                    case "Products":
+                        if (MainDataGrid.SelectedItem is Products product)
+                        {
+                            _dbService.DeleteProduct(product.ProductID);
+                        }
+                        break;
+                    case "Sales":
+                        if (MainDataGrid.SelectedItem is Sales sale)
+                        {
+                            _dbService.DeleteSale(sale.SaleID);
+                        }
+                        break;
+                    default:
+                        MessageBox.Show("Неизвестная таблица для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                        break;
+                }
+                LoadData();
             }
-            LoadData();
+            catch (InvalidCastException ex)
+            {
+                MessageBox.Show($"Ошибка приведения типов: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
