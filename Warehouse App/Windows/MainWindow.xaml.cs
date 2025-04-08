@@ -3,6 +3,8 @@ using System.Windows;
 using Warehouse_App.Data;
 using Warehouse_App.Windows;
 using Warehouse_App;
+using Microsoft.Reporting.WinForms;
+using System.IO;
 
 
 namespace Warehouse_App.Windows
@@ -212,5 +214,12 @@ namespace Warehouse_App.Windows
                 MessageBox.Show($"Произошла ошибка при удалении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void OpenReport_Click(object sender, RoutedEventArgs e)
+        {
+            var reportWindow = new ReportWindow();
+            reportWindow.ShowDialog();
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Warehouse_App;
 
@@ -40,14 +41,29 @@ namespace Warehouse_App.Data
 
         public void DeleteSupplier(int supplierId)
         {
-            using (var context = new hueEntities())
+            try
             {
-                var supplier = context.Suppliers.Find(supplierId);
-                if (supplier != null)
+                using (var context = new hueEntities())
                 {
-                    context.Suppliers.Remove(supplier);
-                    context.SaveChanges();
+                    var supplier = context.Suppliers.Find(supplierId);
+                    if (supplier != null)
+                    {
+                        context.Suppliers.Remove(supplier);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: Попытка удалить несуществующего поставщика.");
+                    }
                 }
+            }
+            catch (InvalidCastException ex)
+            {
+                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка при удалении поставщика: {ex.Message}");
             }
         }
         //Customers
@@ -85,14 +101,29 @@ namespace Warehouse_App.Data
 
         public void DeleteCustomer(int customerId)
         {
-            using (var context = new hueEntities())
+            try
             {
-                var customer = context.Customers.Find(customerId);
-                if (customer != null)
+                using (var context = new hueEntities())
                 {
-                    context.Customers.Remove(customer);
-                    context.SaveChanges();
+                    var customer = context.Customers.Find(customerId);
+                    if (customer != null)
+                    {
+                        context.Customers.Remove(customer);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: Попытка удалить несуществующего покупателя.");
+                    }
                 }
+            }
+            catch (InvalidCastException ex)
+            {
+                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка при удалении покупателя: {ex.Message}");
             }
         }
 
@@ -135,14 +166,29 @@ namespace Warehouse_App.Data
 
         public void DeleteProduct(int productId)
         {
-            using (var context = new hueEntities())
+            try
             {
-                var product = context.Products.Find(productId);
-                if (product != null)
+                using (var context = new hueEntities())
                 {
-                    context.Products.Remove(product);
-                    context.SaveChanges();
+                    var product = context.Products.Find(productId);
+                    if (product != null)
+                    {
+                        context.Products.Remove(product);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: Попытка удалить несуществующий товар.");
+                    }
                 }
+            }
+            catch (InvalidCastException ex)
+            {
+                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка при удалении товара: {ex.Message}");
             }
         }
 
@@ -184,15 +230,31 @@ namespace Warehouse_App.Data
 
         public void DeleteSale(int saleId)
         {
-            using (var context = new hueEntities())
+            try
             {
-                var sale = context.Sales.Find(saleId);
-                if (sale != null)
+                using (var context = new hueEntities())
                 {
-                    context.Sales.Remove(sale);
-                    context.SaveChanges();
+                    var sale = context.Sales.Find(saleId);
+                    if (sale != null)
+                    {
+                        context.Sales.Remove(sale);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ошибка: Попытка удалить несуществующую сделку.");
+                    }
                 }
             }
+            catch (InvalidCastException ex)
+            {
+                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка при удалении сделки: {ex.Message}");
+            }
+
         }
 
     }
