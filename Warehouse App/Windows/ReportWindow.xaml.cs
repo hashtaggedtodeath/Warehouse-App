@@ -29,9 +29,14 @@ namespace Warehouse_App.Windows
 
             // Загружаем данные
             var suppliers = _dbService.GetSuppliers();
+            var customers = _dbService.GetCustomers();
+            var products = _dbService.GetProducts();
+            var sales = _dbService.GetSales();
             reportViewer.LocalReport.DataSources.Clear();
             reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet1", suppliers));
-
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet2", customers));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet3", products));
+            reportViewer.LocalReport.DataSources.Add(new ReportDataSource("DataSet4", sales));
             reportViewer.RefreshReport();
 
             reportHost.Child = reportViewer;

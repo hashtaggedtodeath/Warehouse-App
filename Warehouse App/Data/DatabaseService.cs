@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Windows;
+using System.Runtime.Remoting.Contexts;
 using Warehouse_App;
 
 namespace Warehouse_App.Data
@@ -53,17 +56,17 @@ namespace Warehouse_App.Data
                     }
                     else
                     {
-                        Console.WriteLine("Ошибка: Попытка удалить несуществующего поставщика.");
+                        MessageBox.Show("Ошибка: Попытка удалить несуществующего поставщика.");
                     }
                 }
             }
             catch (InvalidCastException ex)
             {
-                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+                MessageBox.Show($"Ошибка приведения типов: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Произошла ошибка при удалении поставщика: {ex.Message}");
+                MessageBox.Show($"Произошла ошибка при удалении поставщика: {ex.Message}");
             }
         }
         //Customers
@@ -113,17 +116,17 @@ namespace Warehouse_App.Data
                     }
                     else
                     {
-                        Console.WriteLine("Ошибка: Попытка удалить несуществующего покупателя.");
+                        MessageBox.Show("Ошибка: Попытка удалить несуществующего покупателя.");
                     }
                 }
             }
             catch (InvalidCastException ex)
             {
-                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+                MessageBox.Show ($"Ошибка приведения типов: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Произошла ошибка при удалении покупателя: {ex.Message}");
+                MessageBox.Show($"Произошла ошибка при удалении покупателя: {ex.Message}");
             }
         }
 
@@ -140,10 +143,25 @@ namespace Warehouse_App.Data
 
         public void AddProduct(Products product)
         {
-            using (var context = new hueEntities())
+            try
             {
-                context.Products.Add(product);
-                context.SaveChanges();
+                using (var context = new hueEntities())
+                {
+                    context.Products.Add(product);
+                    context.SaveChanges();
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        MessageBox.Show($"Property: {validationError.PropertyName}, Error: {validationError.ErrorMessage}");
+
+                    }
+                }
+                
             }
         }
 
@@ -178,17 +196,17 @@ namespace Warehouse_App.Data
                     }
                     else
                     {
-                        Console.WriteLine("Ошибка: Попытка удалить несуществующий товар.");
+                        MessageBox.Show("Ошибка: Попытка удалить несуществующий товар.");
                     }
                 }
             }
             catch (InvalidCastException ex)
             {
-                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+                MessageBox.Show($"Ошибка приведения типов: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Произошла ошибка при удалении товара: {ex.Message}");
+                MessageBox.Show($"Произошла ошибка при удалении товара: {ex.Message}");
             }
         }
 
@@ -242,17 +260,17 @@ namespace Warehouse_App.Data
                     }
                     else
                     {
-                        Console.WriteLine("Ошибка: Попытка удалить несуществующую сделку.");
+                        MessageBox.Show("Ошибка: Попытка удалить несуществующую сделку.");
                     }
                 }
             }
             catch (InvalidCastException ex)
             {
-                Console.WriteLine($"Ошибка приведения типов: {ex.Message}");
+                MessageBox.Show($"Ошибка приведения типов: {ex.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Произошла ошибка при удалении сделки: {ex.Message}");
+                MessageBox.Show($"Произошла ошибка при удалении сделки: {ex.Message}");
             }
 
         }
