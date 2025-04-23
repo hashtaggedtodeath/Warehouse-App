@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Runtime.Remoting.Contexts;
 using Warehouse_App;
+using System.Data.Entity;
 
 namespace Warehouse_App.Data
 {
@@ -210,13 +211,17 @@ namespace Warehouse_App.Data
             }
         }
 
-    
-    //Sales
-    public List<Sales> GetSales()
+
+        //Sales
+        public List<Sales> GetSales()
         {
             using (var context = new hueEntities())
             {
-                return context.Sales.ToList();
+                return context.Sales
+                    .Include(s => s.Products)
+                    .Include(s => s.Customers)
+                    .Include(s => s.Suppliers)
+                    .ToList();
             }
         }
 

@@ -5,6 +5,7 @@ using Warehouse_App.Windows;
 using Warehouse_App;
 using Microsoft.Reporting.WinForms;
 using System.IO;
+using System.Windows.Documents;
 
 
 namespace Warehouse_App.Windows
@@ -220,6 +221,18 @@ namespace Warehouse_App.Windows
             reportWindow.ShowDialog();
         }
 
+        private void Excel_Click(object sender, RoutedEventArgs e)
+        {
+            var salesList = _dbService.GetSales();
+            Exporter.ExportSalesToExcel(salesList);
+
+        }
+
+        private void Word_Click(object sender, RoutedEventArgs e)
+        {
+            var salesList = _dbService.GetSales();
+            Exporter.ExportSalesToWord(salesList);
+        }
 
     }
 }

@@ -31,6 +31,8 @@
             <Button x:Name="DeleteButton" Content="Удалить" Width="100" Margin="5"
                     Click="DeleteButton_Click"/>
             <Button Content="Сгенерировать отчет" Click="OpenReport_Click" Margin="5"/>
+            <Button Content="Word" Click="Word_Click" Margin="5"/>
+            <Button Content="Excel" Click="Excel_Click" Margin="5"/>
 
 
         </StackPanel>
